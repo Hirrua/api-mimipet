@@ -15,6 +15,12 @@ class Tutor {
   @Column('varchar', { nullable: false, length: 50, unique: true })
   email: string
 
+  @Column('varchar', { nullable: false, length: 50 })
+  senha: string
+
+  @Column('varchar', { nullable: true, length: 11 })
+  celular: string
+
   @Column('varchar', { nullable: false, length: 14 })
   cpf: string
 
