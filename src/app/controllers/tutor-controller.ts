@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import TutorRepository from "../repositories/tutor-repository";
+import authenticationMiddleware from "../middlewares/auth-middleware";
 
 class TutorController {
   public router: Router
@@ -12,9 +13,10 @@ class TutorController {
   private initializeRoutes() {
     this.router.get('/', this.getAllTutores)
     this.router.get('/:id', this. getTutor)
-    this.router.post('/', this.createTutor)
-    this.router.put('/:id', this.updateTutor)
-    this.router.delete('/:id', this.removeTutor)
+    this.router.post('/', authenticationMiddleware, this.createTutor)
+    this.router.put('/:id', authenticationMiddleware, this.updateTutor)
+    this.router.delete('/:id', authenticationMiddleware, this.removeTutor)
+    // this.router.post('/login', this.loginTutor)
   }
 
   private async getAllTutores(req: Request, res: Response) {
@@ -44,6 +46,10 @@ class TutorController {
     const tutorRemove = await TutorRepository.deleteTutor(id)
     res.status(200).json(tutorRemove)
   }
+
+  // private async loginTutor(req: Request, res: Response) {
+  //   res.status(200).json('credenciais')
+  // }
 }
 
 const tutorController = new TutorController().router

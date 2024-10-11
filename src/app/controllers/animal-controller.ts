@@ -1,5 +1,6 @@
 import { Request, Response, Router } from "express";
 import AnimalRepository from "../repositories/animal-repository";
+import authenticationMiddleware from "../middlewares/auth-middleware";
 
 class AnimalController {
   public router: Router
@@ -10,11 +11,11 @@ class AnimalController {
   }
 
   private initializeRoutes() {
-    this.router.get('/', this.getAllAnimal)
-    this.router.get('/:id', this. getAnimal)
-    this.router.post('/', this.createAnimal)
-    this.router.put('/:id', this.updateAnimal)
-    this.router.delete('/:id', this.removeAnimal)
+    this.router.get('/', authenticationMiddleware, this.getAllAnimal)
+    this.router.get('/:id', authenticationMiddleware, this.getAnimal)
+    this.router.post('/', authenticationMiddleware, this.createAnimal)
+    this.router.put('/:id', authenticationMiddleware, this.updateAnimal)
+    this.router.delete('/:id', authenticationMiddleware, this.removeAnimal)
   }
 
   private async getAllAnimal(req: Request, res: Response) {

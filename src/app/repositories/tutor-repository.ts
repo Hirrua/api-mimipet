@@ -5,6 +5,8 @@ import { tutorSchemaValidation, tutorUpdateSchemaValidation } from "../utils/val
 import { ITutorInput, ITutorOutput, ITutorUpdateInput } from "../inferfaces/tutor-interface";
 import { ValidationErrorItem } from "joi";
 import bcrypt from "bcrypt"
+import { ILogin } from "../inferfaces/login-interface";
+import Auth from "../utils/auth";
 
 class TutorRepository {
   private static tutorRepository = AppDataSource.getRepository(Tutor)
@@ -65,6 +67,33 @@ class TutorRepository {
 
     await this.tutorRepository.delete(id)
     return "O(A) Tutor(a) foi deletado"
+  }
+
+  static async getTutorEmail(email: string): Promise<ITutorOutput | null> {
+    return this.tutorRepository.findOneBy({ email })
+  }
+
+  static async authTutor(loginData: ILogin): Promise<string> {
+    const { email, senha } = loginData
+    if (!email || !senha) {
+      throw new ErrorExtention(401, "Dados faltantes")
+    }
+
+    const tutor = await this.getTutorEmail(email)
+    if (!tutor) {
+      throw new ErrorExtention(401, "E-mail ou senha errados")
+    }
+
+    const verifyPassword = await bcrypt.compare(senha, tutor.senha)
+    if (!senha !== verifyPassword) {
+      throw new ErrorExtention(401, "E-mail ou senha errados")
+    }
+
+    const payload = { nome: tutor.nome, email: tutor.email }
+    const auth = new Auth()
+    const token = auth.jwtGenerator(payload)
+
+    return token
   }
 }
 
