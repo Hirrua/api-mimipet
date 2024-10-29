@@ -6,7 +6,7 @@ class Tutor {
   @PrimaryGeneratedColumn("increment")
   id: number
 
-  @Column('varchar', { nullable: false, length: 100 })
+  @Column('varchar', { nullable: false, length: 50 })
   nome: string
 
   @Column('varchar', { nullable: true, length: 50 })

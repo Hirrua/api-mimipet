@@ -16,7 +16,7 @@ class TutorController {
     this.router.post('/', authenticationMiddleware, this.createTutor)
     this.router.put('/:id', authenticationMiddleware, this.updateTutor)
     this.router.delete('/:id', authenticationMiddleware, this.removeTutor)
-    // this.router.post('/login', this.loginTutor)
+    this.router.post('/auth', this.authTokenTutor)
   }
 
   private async getAllTutores(req: Request, res: Response) {
@@ -47,9 +47,10 @@ class TutorController {
     res.status(200).json(tutorRemove)
   }
 
-  // private async loginTutor(req: Request, res: Response) {
-  //   res.status(200).json('credenciais')
-  // }
+  private async authTokenTutor(req: Request, res: Response) {
+    const token = await TutorRepository.authTutor(req.body)
+    res.status(201).json({ token })
+  }
 }
 
 const tutorController = new TutorController().router

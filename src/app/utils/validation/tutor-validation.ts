@@ -28,7 +28,7 @@ const tutorSchemaValidation = Joi.object({
     "string.max": "O campo senha deve ter no máximo 50 caracteres",
     "any.required": "O campo senha é obrigatório"
   }),
-  celular: Joi.string().optional().min(11).max(13).messages({
+  celular: Joi.string().optional().min(11).max(11).messages({
     "string.base": "O campo celular deve ser uma string",
     "string.min": "O campo celular deve ter pelo menos 11 caracteres",
     "string.max": "O campo celular deve ter no máximo 13 caracteres"

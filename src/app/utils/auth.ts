@@ -1,11 +1,12 @@
-import jwt, { SignOptions } from "jsonwebtoken"
-import { ITokenData } from "../inferfaces/login-interface"
-import ErrorExtention from "./error"
-import dotenv from "dotenv"
+import jwt, { SignOptions } from "jsonwebtoken";
+import { ITokenData } from "../inferfaces/login-interface";
+import ErrorExtention from "./error";
+import dotenv from "dotenv";
 
 dotenv.config()
 
 const secret = process.env.SECRET_KEY as string
+
 const jwtDefaultConfig: SignOptions = {
   algorithm: "HS256",
   expiresIn: "5h"
@@ -13,13 +14,13 @@ const jwtDefaultConfig: SignOptions = {
 
 class Auth {
   constructor(private jwtConfig?: SignOptions) {
-    if (!jwtConfig) {
-      this.jwtConfig = jwtDefaultConfig
-    }
+    this.jwtConfig = jwtConfig || jwtDefaultConfig
+    console.log("JWT Config:", this.jwtConfig)
   }
 
   public jwtGenerator(payload: ITokenData) {
-    return jwt.sign(payload, secret, this.jwtConfig)
+    const token = jwt.sign(payload, secret, this.jwtConfig)
+    return token
   }
 
   public authenticateToken(token: string) {
@@ -28,7 +29,7 @@ class Auth {
     }
 
     try {
-      const validateJWT = jwt.verify(token, secret, this.jwtConfig)
+      const validateJWT = jwt.verify(token, secret, this.jwtConfig);
       return validateJWT
     } catch (err) {
       throw new ErrorExtention(400, "Falha na autenticação")

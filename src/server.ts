@@ -4,12 +4,16 @@ import express from "express"
 import "express-async-errors"
 import { AppDataSource } from "./database/data-source"
 import routers from "./app/routes"
+import httpErrorMiddleware from "./app/middlewares/error-middleware"
 
 const app = express()
 const port = 3333
 
 app.use(cors())
 app.use(express.json())
+
+app.use(httpErrorMiddleware)
+
 app.use(routers)
 
 AppDataSource.initialize().then(async () => {

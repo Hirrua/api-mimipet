@@ -4,7 +4,7 @@ import ErrorExtention from "../utils/error";
 import { tutorSchemaValidation, tutorUpdateSchemaValidation } from "../utils/validation/tutor-validation";
 import { ITutorInput, ITutorOutput, ITutorUpdateInput } from "../inferfaces/tutor-interface";
 import { ValidationErrorItem } from "joi";
-import bcrypt from "bcrypt"
+import bcrypt from "bcryptjs"
 import { ILogin } from "../inferfaces/login-interface";
 import Auth from "../utils/auth";
 
@@ -35,7 +35,7 @@ class TutorRepository {
       throw new ErrorExtention(400, validationError.join(','))
     }
 
-    const salt = await bcrypt.genSalt(12)
+    const salt = await bcrypt.genSalt(10)
     const hashedPassword = await bcrypt.hash(tutor.senha, salt)
     tutor.senha = hashedPassword
 
@@ -81,18 +81,19 @@ class TutorRepository {
 
     const tutor = await this.getTutorEmail(email)
     if (!tutor) {
+      console.log('E-mail não encontrado no banco de dados')
       throw new ErrorExtention(401, "E-mail ou senha errados")
-    }
-
-    const verifyPassword = await bcrypt.compare(senha, tutor.senha)
-    if (!senha !== verifyPassword) {
-      throw new ErrorExtention(401, "E-mail ou senha errados")
+    } else {
+      const verifyPassword = bcrypt.compare(senha, tutor.senha)
+      if (!verifyPassword) {
+        console.log('Falha na verificação da senha')
+        throw new ErrorExtention(401, "E-mail ou senha errados")
+      }
     }
 
     const payload = { nome: tutor.nome, email: tutor.email }
     const auth = new Auth()
     const token = auth.jwtGenerator(payload)
-
     return token
   }
 }
