@@ -81,12 +81,10 @@ class TutorRepository {
 
     const tutor = await this.getTutorEmail(email)
     if (!tutor) {
-      console.log('E-mail não encontrado no banco de dados')
       throw new ErrorExtention(401, "E-mail ou senha errados")
     } else {
       const verifyPassword = bcrypt.compare(senha, tutor.senha)
       if (!verifyPassword) {
-        console.log('Falha na verificação da senha')
         throw new ErrorExtention(401, "E-mail ou senha errados")
       }
     }

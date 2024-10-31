@@ -11,10 +11,9 @@ const port = 3333
 
 app.use(cors())
 app.use(express.json())
-
-app.use(httpErrorMiddleware)
-
 app.use(routers)
+    
+app.use(httpErrorMiddleware)
 
 AppDataSource.initialize().then(async () => {
     console.log("Banco de dados iniciado!")

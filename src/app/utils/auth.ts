@@ -15,7 +15,6 @@ const jwtDefaultConfig: SignOptions = {
 class Auth {
   constructor(private jwtConfig?: SignOptions) {
     this.jwtConfig = jwtConfig || jwtDefaultConfig
-    console.log("JWT Config:", this.jwtConfig)
   }
 
   public jwtGenerator(payload: ITokenData) {

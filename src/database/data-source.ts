@@ -1,9 +1,8 @@
 import "reflect-metadata"
 import { DataSource } from "typeorm"
 import dotenv from "dotenv"
-import { CreateTutorTable1727797219467 } from "./migrations/1727797219467-CreateTutorTable"
 import { CreateAnimalTable1727907553003 } from "./migrations/1727907553003-CreateAnimalTable"
-import { UpdateTutorTable1728009767289 } from "./migrations/1728009767289-UpdateTutorTable"
+import { CreateTutorTable1727797219467 } from "./migrations/1730248986907-CreateTableTutores"
 import Tutor from "../app/entities/tutor"
 import Animal from "../app/entities/animal"
 
@@ -19,6 +18,6 @@ export const AppDataSource = new DataSource({
     synchronize: true,
     logging: false,
     entities: [Tutor,Animal],
-    migrations: [CreateTutorTable1727797219467,CreateAnimalTable1727907553003, UpdateTutorTable1728009767289],
+    migrations: [CreateTutorTable1727797219467, CreateAnimalTable1727907553003],
     subscribers: [],
 })

@@ -34,10 +34,22 @@ export class CreateTutorTable1727797219467 implements MigrationInterface {
             isNullable: false
           },
           {
+            name: "senha",
+            type: "varchar",
+            length: "255",
+            isNullable: false
+          },
+          {
             name: "cpf",
             type: "varchar",
             length: "14",
             isNullable: false
+          },
+          {
+            name: "celular",
+            type: "varchar",
+            length: "11",
+            isNullable: true
           },
           {
             name: "criado_em",
@@ -52,5 +64,4 @@ export class CreateTutorTable1727797219467 implements MigrationInterface {
   public async down(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.dropTable("tutores")
   }
-
 }

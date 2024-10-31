@@ -21,11 +21,11 @@ const tutorSchemaValidation = Joi.object({
     "string.max": "O campo email deve ter no máximo 50 caracteres",
     "any.required": "O campo email é obrigatório"
   }),
-  senha: Joi.string().required().min(8).max(50).messages({
+  senha: Joi.string().required().min(8).max(255).messages({
     "string.base": "O campo senha deve ser uma string",
     "string.empty": "O campo senha não deve estar vazio",
     "string.min": "O campo senha deve ter pelo menos 8 caracteres",
-    "string.max": "O campo senha deve ter no máximo 50 caracteres",
+    "string.max": "O campo senha deve ter no máximo 255 caracteres",
     "any.required": "O campo senha é obrigatório"
   }),
   celular: Joi.string().optional().min(11).max(11).messages({
@@ -63,11 +63,11 @@ const tutorUpdateSchemaValidation = Joi.object({
     "string.max": "O campo email deve ter no máximo 50 caracteres",
     "any.required": "O campo email é obrigatório"
   }),
-  senha: Joi.string().optional().min(8).max(50).messages({
+  senha: Joi.string().optional().min(8).max(255).messages({
     "string.base": "O campo senha deve ser uma string",
     "string.empty": "O campo senha não deve estar vazio",
     "string.min": "O campo senha deve ter pelo menos 8 caracteres",
-    "string.max": "O campo senha deve ter no máximo 50 caracteres",
+    "string.max": "O campo senha deve ter no máximo 255 caracteres",
     "any.required": "O campo senha é obrigatório"
   }),
   celular: Joi.string().optional().min(11).max(13).messages({
